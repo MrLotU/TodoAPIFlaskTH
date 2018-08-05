@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title></title>
+  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+  <!-- 
+  ===============================
+  CHANGE
+  Added /static to link href 
+  ===============================
+  -->
+  <link rel="stylesheet" href="/static/styles/main.css" type="text/css">
+</head>
+<body ng-app="todoListApp">
+  
+  <h1>My TODOs!</h1>
+  
+  <div class="list" ng-controller="mainCtrl">
+    <div class="add">
+      <a href="#" ng-click="addTodo()">
+        + Add a New Task</a>
+      </div>
+    <todo></todo>
+   </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-resource.min.js"></script>
+  <!-- 
+  ===============================
+  CHANGE
+
+  Added /static to all script src below
+  ===============================
+  -->
+  <script src="/static/scripts/app.js"></script>
+  <script src="/static/scripts/resources/todo.js"></script>
+  <script src="/static/scripts/controllers/main.js"></script>
+  <script src="/static/scripts/controllers/todo.js"></script>
+  <script src="/static/scripts/directives/todo.js"></script>
+</body>
+</html>
