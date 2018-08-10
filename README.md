@@ -16,5 +16,5 @@ If you want to add a reloader (flask debug mode) add the `-r` flag to the serve 
 
 To test, make sure the requirements are installed as seen above, and run the following:
 ```
-python manage.py test
+python TodoAPI/tests.py
 ```

@@ -4,6 +4,7 @@ from flask import Blueprint, abort, jsonify, make_response, request
 from flask_restful import Api, Resource, fields, inputs, marshal, marshal_with, reqparse, url_for
 
 from TodoAPI.models import Todo
+from TodoAPI.util.auth import Auth
 
 todo_fields = {
     'id': fields.Integer,
@@ -13,6 +14,9 @@ todo_fields = {
 }
 
 class TodoList(Resource):
+    decorators = [
+        Auth.basic
+    ]
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(

@@ -3,6 +3,7 @@ from gevent import monkey; monkey.patch_all()
 from werkzeug.serving import run_with_reloader
 from gevent import pywsgi as wsgi
 from TodoAPI.app import app as todoAPI
+# from TodoAPI.tests import run as run_tests
 
 import click
 import gevent
@@ -21,6 +22,6 @@ def serve(reloader):
         run_with_reloader(run)
     else:
         run()
-    
+
 if __name__ == '__main__':
     cli()
