@@ -9,13 +9,6 @@ from TodoAPI.models.user import User
 
 class Auth:
     @staticmethod
-    def non_token(func):
-        if callable(func):
-            return _check_auth(func)
-        else:
-            return functools.partial(_check_auth)
-
-    @staticmethod
     def basic(func):
         if callable(func):
             return _check_auth(func)
@@ -32,7 +25,6 @@ class Auth:
 def _login_req(func):
     @functools.wraps(func)
     def deco(*args, **kwargs):
-        # print(getattr(g, 'user'))
         if not hasattr(g, 'user') or not g.user:
             return redirect('/login')
         return func(*args, **kwargs)
@@ -52,21 +44,6 @@ def _check_auth(func):
                 if scheme == 'Bearer':
                     user = User.verify_auth_token(creds)
                     if user is not None:
-                        g.user = user
-                        return func(*args, **kwargs)
-                elif scheme == 'Basic':
-                    auth = parse_authorization_header(request.headers['Authorization'])
-                    if auth is None:
-                        return '', 401
-                    try:
-                        user = User.get(
-                            (User.username==auth.username)
-                        )
-                        if not user.verify_password(auth.password):
-                            return '', 401
-                    except User.DoesNotExist:
-                        return '', 401
-                    else:
                         g.user = user
                         return func(*args, **kwargs)
         return '', 401

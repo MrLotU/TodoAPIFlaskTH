@@ -10,9 +10,32 @@ class TestAPI(TestCase):
         init_db()
         self.client = app.test_client()
 
-    def test_index(self):
-        r = self.client.get('/api/v1/todos')
-        print(r.status_code)
+    def test_index_no_login(self):
+        r = self.client.get('/')
+        self.assertEqual(r.status_code, 302)
+
+    def test_index_login(self):
+        r = self.client.post('/login', data=dict(
+            username='temp',
+            password='pass'
+        ))
+        self.assertEqual(r.status_code, 302)
+        r = self.client.get('/')
+        self.assertEqual(r.status_code, 200)
+    
+    def test_api(self):
+        r = self.client.post('/login', data=dict(
+            username='temp',
+            password='pass'
+        ))
+        self.assertEqual(r.status_code, 302)
+        tr = self.client.get('/api/v1/auth/token')
+        self.assertEqual(tr.status_code, 200)
+        token = tr.data
+        r = self.client.get('/api/v1/todos', headers=dict(
+            Authorization='Bearer {}'.format(token)
+        ))
+
 
 if __name__ == '__main__':
     execute_tests()

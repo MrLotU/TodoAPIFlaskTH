@@ -16,7 +16,6 @@ def my_todos():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print(request.form)
         username = request.form.get('username')
         password = request.form.get('password')
         try:
@@ -26,8 +25,6 @@ def login():
         else:
             if user.verify_password(password):
                 g.user = user
-                print('Set user!')
-                print(user)
                 return redirect('/')
     return render_template('login.html')
 
@@ -42,7 +39,6 @@ def setup():
 
 @app.before_request
 def check_auth():
-    print('{}'.format(request.headers) +  '\nURL: ' + request.url)
     g.user = None
     if 'token' in session:
         g.user = User.verify_auth_token(session.get('token'))
