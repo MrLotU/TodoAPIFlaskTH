@@ -20,10 +20,3 @@ def init_db():
         model.create_table(True)
         if hasattr(model, 'SQL'):
             database.execute_sql(model.SQL)
-    
-def reset_db():
-    init_db()
-
-    for model in REGISTERED_MODELS:
-        model.drop_table(True)
-        model.create_table(True)

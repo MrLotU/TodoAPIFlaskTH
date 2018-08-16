@@ -21,12 +21,35 @@ def login():
         try:
             user = User.get(User.username**username)
         except User.DoesNotExist:
-            pass
+            return render_template('login.html', message='Unknown username, try signing up instead?')
         else:
             if user.verify_password(password):
                 g.user = user
                 return redirect('/')
     return render_template('login.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        pass1 = request.form.get('pass1')
+        pass2 = request.form.get('pass2')
+        if pass1 != pass2:
+            return render_template('signup.html', message='Passwords don\'t match')
+        try:
+            user = User.get(User.username**username)
+        except User.DoesNotExist:
+            user = User.create_user(username, pass1)
+            g.user = user
+            return redirect('/')
+        else:
+            return render_template('signup.html', message='User with that username already exists')
+    return render_template('signup.html')
+
+@app.route('/logout')
+def logout():
+    g.user = None
+    return redirect('/login')
 
 @app.route('/api/v1/auth/token')
 @Auth.form_auth

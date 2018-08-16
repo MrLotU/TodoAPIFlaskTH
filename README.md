@@ -1,5 +1,9 @@
 # TODO API FLASK
 
+## General note
+For the tests, there's a test user in the DB with username `temp` and password `pass`, so don't clear the DB, you can also use this user to test the app if you don't want to sign up a new acount.
+
+
 ## Running
 
 If you're running the app for the first time, install the requirements using 
