@@ -16,5 +16,13 @@ If you want to add a reloader (flask debug mode) add the `-r` flag to the serve 
 
 To test, make sure the requirements are installed as seen above, and run the following:
 ```
-python tests.py
+coverage run --source TodoAPI/ tests.py
 ```
+#### Use the --source option here because otherwise at some occasions coverage will include some random python packages like six
+and use
+```
+coverage html
+# or
+coverage report
+```
+to see the result
