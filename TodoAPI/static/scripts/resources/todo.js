@@ -2,34 +2,48 @@
 
 angular.module('todoListApp')
 .factory('Todo', function($resource){
-  // var token = "eyJhbGciOiJIUzI1NiIsImlhdCI6MTUzMzkwMDc0MCwiZXhwIjoxNTMzOTA0MzQwfQ.eyJpZCI6MX0.OUbTZxXhY3tXtJbph0xTpW5FwDVIn2TIqSooEO_r0hI"
-  // getToken()
-  return $resource('/api/v1/todos/:id', {id: '@id'}, {
+  var token = getToken
+  var res = $resource('/api/v1/todos/:id', {id: '@id'}, {
     update: {
       method: 'PUT',
       headers: {
-        'Authorization': getToken
+        Authorization: token
       }
     },
     get: {
         method: 'GET',
         isArray: false,
         headers: {
-            'Authorization': getToken
-        }
+          Authorization: token
+        }  
     },
     delete: {
         method: 'DELETE',
         headers: {
-            'Authorization': getToken
-        }
+          Authorization: token
+        }  
     },
+    query: {
+      method: 'GET',
+      isArray: true,
+      headers: {
+        Authorization: token
+      }
+    },
+    save: {
+      method: 'POST',
+      headers: {
+        Authorization: token
+      }
+    }
   });
-  function getToken(context) {
+
+  function getToken() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", 'http://localhost:8080/api/v1/auth/token', false);
+    var url = 'http://' + location.host + '/api/v1/auth/token';
+    xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
-    console.log(xmlHttp.responseText);
     return 'Bearer ' + xmlHttp.responseText;
-  }
+  };
+  return res;
 });
