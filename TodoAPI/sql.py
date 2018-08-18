@@ -1,5 +1,4 @@
 from peewee import Model, Proxy, SqliteDatabase
-import psycogreen.gevent; psycogreen.gevent.patch_psycopg()
 
 REGISTERED_MODELS = []
 

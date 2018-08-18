@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Login</title>
+        <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/static/styles/main.css" type="text/css">      
+    </head>
+    <body>
+        <h1>Sign up</h1>
+        {% if message %}
+            <h2>Error parsing form!</h2>
+            <p>{{ message }}</p>
+        {% endif %}
+        <form action="/signup" method="POST">
+            <input type="text" name="username" placeholder="username">
+            <input type="password" name="pass1" placeholder="password">
+            <input type="password" name="pass2" placeholder="confirm password">
+            <button type="submit">Sign up & log in</button>
+        </form>
+        <br>
+        <a href="/login">Log in</a>
+    </body>
+</html>
