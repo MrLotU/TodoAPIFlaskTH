@@ -15,6 +15,7 @@ def cli():
 @cli.command()
 @click.option('--reloader/--no-reloader', '-r', default=False)
 def serve(reloader):
+    """Serve the server with or without reloader"""
     def run(): 
         wsgi.WSGIServer(('0.0.0.0', 8080), todoAPI).serve_forever()
     

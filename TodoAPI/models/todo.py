@@ -8,7 +8,7 @@ from TodoAPI.sql import BaseModel
 
 @BaseModel.register
 class Todo(BaseModel):
-    id = IntegerField(primary_key=True)
+    """Model holding a todo"""
     name = CharField()
     edited = BooleanField(default=False)
     completed = BooleanField(default=False)

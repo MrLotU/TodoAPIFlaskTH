@@ -8,8 +8,10 @@ from flask_httpauth import HTTPBasicAuth
 from TodoAPI.models.user import User
 
 class Auth:
+    """Auth helper class"""
     @staticmethod
     def basic(func):
+        """Basic auth provider for Bearer tokens"""
         if callable(func):
             return _check_auth(func)
         else:
@@ -17,12 +19,14 @@ class Auth:
     
     @staticmethod
     def form_auth(func):
+        """Basic auth provider for Basic auth"""
         if callable(func):
             return _login_req(func)
         else:
             return functools.partial(_login_req)
 
 def _login_req(func):
+    """Checks user login through session"""
     @functools.wraps(func)
     def deco(*args, **kwargs):
         if not hasattr(g, 'user') or not g.user:
@@ -31,6 +35,7 @@ def _login_req(func):
     return deco
 
 def _check_auth(func):
+    """Checks user login through Auth headers"""
     @functools.wraps(func)
     def deco(*args, **kwargs):
         if 'Authorization' in request.headers:

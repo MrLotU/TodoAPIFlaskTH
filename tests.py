@@ -7,6 +7,7 @@ from unittest import TestCase, main as execute_tests
 
 class TestAPI(TestCase):
     def setUp(self):
+        """Setup app for testing"""
         init_db()
         self.client = app.test_client()
 

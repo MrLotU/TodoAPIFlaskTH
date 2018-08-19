@@ -15,6 +15,7 @@ def my_todos():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Logs a user in"""
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -30,6 +31,7 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """Signs up a new user"""
     if request.method == 'POST':
         username = request.form.get('username')
         pass1 = request.form.get('pass1')
@@ -48,26 +50,31 @@ def signup():
 
 @app.route('/logout')
 def logout():
+    """Logs the user out"""
     g.user = None
     return redirect('/login')
 
 @app.route('/api/v1/auth/token')
 @Auth.form_auth
 def get_token():
+    """Returns the users auth token"""
     return g.user.auth_token
 
 @app.before_first_request
 def setup():
+    """Initializes the DB"""
     init_db()
 
 @app.before_request
 def check_auth():
+    """Checks session auth"""
     g.user = None
     if 'token' in session:
         g.user = User.verify_auth_token(session.get('token'))
 
 @app.after_request
 def save_auth(response):
+    """Saves auth to session"""
     if g.user and 'token' not in session:
         session['token'] = g.user.generate_auth_token()
     elif not g.user and 'token' in session:
@@ -77,6 +84,7 @@ def save_auth(response):
 
 @app.context_processor
 def inject_data():
+    """Injects data"""
     return dict(
         user=g.user,
     )

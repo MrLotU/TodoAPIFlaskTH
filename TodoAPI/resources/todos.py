@@ -14,6 +14,7 @@ todo_fields = {
 }
 
 class TodoList(Resource):
+    """Resource for the list of todos"""
     decorators = [
         Auth.basic
     ]
@@ -27,16 +28,19 @@ class TodoList(Resource):
         )
 
     def get(self):
+        """Get all todos"""
         return [marshal(todo, todo_fields) for todo in Todo.select()]
         
     def post(self):
+        """Create a new todo"""
         args = self.reqparse.parse_args()
         if args['name'] is None:
             return jsonify({'error': 'No name provided'}), 400
         todo = Todo.create(name=args['name'])
         return marshal(todo, todo_fields), 200
-    
+
 class TodoResource(Resource):
+    """Resource for a single todo"""
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(
@@ -47,19 +51,22 @@ class TodoResource(Resource):
         )
 
     def put(self, id):
+        """Update a todo"""
         args = self.reqparse.parse_args()
         if args['name'] is None:
             return jsonify({'error': 'No name provided'}), 400
         todo = Todo.select().where(Todo.id == id).get()
         todo.name = args['name']
         todo.save()
-        return 200
+        return marshal(todo, todo_fields), 200
     
     def delete(self, id):
+        """Delete a todo"""
         todo = Todo.select().where(Todo.id == id).get()
         todo.delete_instance()
         return {}, 200
 
+# Setup the required things
 todo_api = Blueprint('resources.todo', __name__)
 
 api = Api(todo_api)

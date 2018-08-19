@@ -9,15 +9,18 @@ HASHER = PasswordHasher()
 
 @BaseModel.register
 class User(BaseModel):
+    """Model holding a user"""
     username = CharField()
     password = CharField()
 
     @property
     def auth_token(self):
+        """Gets the auth token"""
         return self.generate_auth_token()
 
     @classmethod
     def create_user(cls, username, password, **kwargs):
+        """Creates a new user"""
         try:
             cls.select().where(
                 (cls.username**username)
@@ -32,6 +35,7 @@ class User(BaseModel):
 
     @staticmethod
     def verify_auth_token(token):
+        """Verifies auth token"""
         serializer = Serializer('')
         try:
             data = serializer.loads(token)
@@ -43,11 +47,14 @@ class User(BaseModel):
 
     @staticmethod
     def hash_password(password):
+        """Hashes password"""
         return HASHER.hash(password)
 
     def verify_password(self, password):
+        """Verifies password"""
         return HASHER.verify(self.password, password)
 
     def generate_auth_token(self):
+        """Genearates an auth token"""
         serializer = Serializer('')
         return serializer.dumps({'id': self.id})
