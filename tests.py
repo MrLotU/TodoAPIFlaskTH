@@ -57,7 +57,7 @@ class TestAPI(TestCase):
             pass1='password',
             pass2='password'
         ))
-        self.assertEqual(r.status_code, 302)
+        self.assertEqual(r.status_code, 200)
     
     
     def test_api(self):
